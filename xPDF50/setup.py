@@ -24,6 +24,7 @@ setup(
                 "pytest>=3.7",
             ],
     },
+    url="https://github.com/thaare87/projects/tree/master/xPDF50",
     author="Thaare87",
     author_email="thaare87@gmail.com",
 )

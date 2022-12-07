@@ -2,7 +2,6 @@ from prepare import modify_html
 from xhtml2pdf import pisa
 import argparse
 import re
-import sys
 
 
 """
@@ -13,10 +12,8 @@ import sys
 
 
 def main():
-    # User request at the command-line
-    user_request = get_input()
-
-    if url := is_valid(user_request):
+    # User entered URL at the command-line
+    if url := get_input():
 
         # Data related to user request
         course, year, material_name = unpack(url)
@@ -31,7 +28,7 @@ def main():
 def get_input():
     """Gets input from user"""
 
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(prog='xPDF50')
 
     parser.add_argument(
         "url",
@@ -41,7 +38,11 @@ def get_input():
 
     args = parser.parse_args()
 
-    return args.url.lower()
+    if is_valid(args.url):
+        return args.url.lower()
+
+    else:
+        parser.exit("hmm... looks like an invalid url    Try: project.py -h")
 
 
 def is_valid(url):
@@ -56,7 +57,7 @@ def is_valid(url):
         return f"https://{matches.group(1)}".removesuffix("/")
 
     else:
-        sys.exit("hmm... looks like an invalid url    Try: project.py -h")
+        return False
 
 
 def unpack(url):
@@ -95,11 +96,9 @@ def unpack(url):
             return handle_uncharted(url)
         else:
             return course, year, f"{problem_or_project_name}"
-    elif "project" in url:
-        return handle_uncharted(url)
     else:
-        # If url is an unanticipated one
-        sys.exit("Sorry... xPDF50 doesn't recognize this CS50 page    Try: project.py -h")
+        return handle_uncharted(url)
+
 
 
 def handle_uncharted(url):

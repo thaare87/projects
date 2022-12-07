@@ -1,0 +1,2 @@
+[console_scripts]
+xPDF50 = xPDF50.xPDF50:main

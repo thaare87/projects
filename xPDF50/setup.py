@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 
 with open("README.md", "r") as fh:
@@ -7,11 +7,17 @@ with open("README.md", "r") as fh:
 
 setup(
     name='xPDF50',
-    version='0.0.2',
+    version='0.0.3',
     description='Get clean PDFs of CS50 course materials from thier URLs',
     long_description = long_description, long_description_content_type=("text/markdown"),
     py_modules=["xPDF50", "prepare"],
-    package_dir={'':'src'},
+    # package_dir={'':'src'},
+    packages=find_packages(),
+    entry_points={
+        'console_scripts': [
+            'xPDF50 = xPDF50.xPDF50:main'
+        ]
+    },
     classifiers = [
         "Programming Language :: Python :: 3.0",
         "Programming Language :: Python :: 3.6",

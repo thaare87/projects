@@ -1,0 +1,12 @@
+LICENSE.txt
+README.md
+setup.py
+xPDF50/__init__.py
+xPDF50/prepare.py
+xPDF50/xPDF50.py
+xPDF50.egg-info/PKG-INFO
+xPDF50.egg-info/SOURCES.txt
+xPDF50.egg-info/dependency_links.txt
+xPDF50.egg-info/entry_points.txt
+xPDF50.egg-info/requires.txt
+xPDF50.egg-info/top_level.txt

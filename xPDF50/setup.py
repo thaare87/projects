@@ -7,10 +7,10 @@ with open("README.md", "r") as fh:
 
 setup(
     name='xPDF50',
-    version='0.0.3',
+    version='0.0.5',
     description='Get clean PDFs of CS50 course materials from thier URLs',
     long_description = long_description, long_description_content_type=("text/markdown"),
-    py_modules=["xPDF50", "prepare"],
+    py_modules=["xPDF50"],
     # package_dir={'':'src'},
     packages=find_packages(),
     entry_points={
@@ -19,7 +19,6 @@ setup(
         ]
     },
     classifiers = [
-        "Programming Language :: Python :: 3.0",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "License :: OSI Approved :: MIT License",

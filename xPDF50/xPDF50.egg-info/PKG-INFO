@@ -1,11 +1,10 @@
 Metadata-Version: 2.1
 Name: xPDF50
-Version: 0.0.3
+Version: 0.0.5
 Summary: Get clean PDFs of CS50 course materials from thier URLs
 Home-page: https://github.com/thaare87/projects/tree/master/xPDF50
 Author: Thaare87
 Author-email: thaare87@gmail.com
-Classifier: Programming Language :: Python :: 3.0
 Classifier: Programming Language :: Python :: 3.6
 Classifier: Programming Language :: Python :: 3.7
 Classifier: License :: OSI Approved :: MIT License

@@ -1,7 +1,9 @@
-from prepare import modify_html
+from PIL import Image
 from xhtml2pdf import pisa
 import argparse
 import re
+import requests
+import sys
 
 
 """
@@ -96,8 +98,10 @@ def unpack(url):
             return handle_uncharted(url)
         else:
             return course, year, f"{problem_or_project_name}"
-    else:
+    elif "project" in url:
         return handle_uncharted(url)
+    else:
+        sys.exit("Sorry... doesn't recognize this cs50 page     Try: project.py -h")
 
 
 
@@ -107,6 +111,60 @@ def handle_uncharted(url):
     last_part = lambda path: path.split("/")[-1]
 
     return ".....", ".....", f"{last_part(url)}"
+
+
+def modify_html(url, course, year, lesson):
+    """Modify raw html to get desired PDF using xhtml2pdf module"""
+
+    template = "<html><head><style>@page {size: a4 portrait;@frame content_frame {/* Content Frame */left: 50pt; width: 512pt; top: 50pt; height: 722pt;} @frame footer_frame { /* Another static Frame */-pdf-frame-content: footer_content;left: 376pt; width: 512pt; top: 792pt; height: 20pt;}}body{font-size: 10pt;}img {zoom: 70%;}code {font-family: Verdana;}</style></head><body>"
+    content = extract_content(url)
+    footer = f'<div id="footer_content">CS50/{course}/{year}/{lesson} (Page: <pdf:pagenumber>)</div>'
+
+    return template + footer + content
+
+
+def extract_content(url):
+    """Extracting only the required content from html and convert it to a string"""
+
+    try:
+        html = requests.get(url, timeout=0.900)
+
+        # Check if request response status is ok
+        if html.status_code != requests.codes.ok:
+            sys.exit("hmm... something is not right")
+
+    except requests.exceptions.Timeout:
+        sys.exit("cs50.harvard.edu took too long to respond")
+
+    html = edit_tags(html.text, url)
+
+    # Extracting from html's h1 tag onwards until </body> tag
+    if matches := re.search(
+        r'.+(<h1.+</body>).+',
+        html,
+        re.DOTALL,
+    ):
+        extracted_html = matches.group(1)
+
+    return extracted_html.replace("â", "'")
+
+
+def edit_tags(html, url):
+    '''Remove or replace html tags to suit pdf format'''
+
+    # Replace img src with full url path
+    html = re.sub(r'<img.src="(.+)".alt=".+">', rf'<img src="{url}/\1">', html)
+
+    # Removing video tags
+    html = re.sub(r'<div class="ratio.+></iframe></div>', " ", html)
+
+    # Removing demo
+    html = re.sub(r'<h2.id="demo">Demo</h2>', " ", html)
+    html = re.sub(r'<script async="".+</script>', " ", html
+    )
+
+    return html
+
 
 
 def get_pdf(source_html, output_filename):

@@ -1,5 +1,4 @@
-from xPDF50 import is_valid, handle_uncharted, unpack
-from prepare import extract_content, edit_tags
+import __main__.py
 import pytest
 
 

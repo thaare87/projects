@@ -2,7 +2,7 @@ LICENSE.txt
 README.md
 setup.py
 xPDF50/__init__.py
-xPDF50/xPDF50.py
+xPDF50/__main__.py
 xPDF50.egg-info/PKG-INFO
 xPDF50.egg-info/SOURCES.txt
 xPDF50.egg-info/dependency_links.txt

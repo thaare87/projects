@@ -6,17 +6,14 @@ with open("README.md", "r") as fh:
 
 
 setup(
-    name='xPDF50',
-    version='0.0.5',
-    description='Get clean PDFs of CS50 course materials from thier URLs',
+    name="xPDF50",
+    version="1.0.2",
+    description="Get clean PDFs of CS50 course materials on cs50.harvard.edu URLs",
     long_description = long_description, long_description_content_type=("text/markdown"),
-    py_modules=["xPDF50"],
-    # package_dir={'':'src'},
-    packages=find_packages(),
+    py_modules=["__main__"],
+    packages=["xPDF50"],
     entry_points={
-        'console_scripts': [
-            'xPDF50 = xPDF50.xPDF50:main'
-        ]
+        "console_scripts":["xPDF50 = xPDF50.__main__:main"],
     },
     classifiers = [
         "Programming Language :: Python :: 3.6",
@@ -24,10 +21,9 @@ setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
+    python_requires=">=3.6",
     extras_require = {
-            "dev": [
-                "pytest>=3.7",
-            ],
+            "dev": ["pytest>=3.7"],
     },
     url="https://github.com/thaare87/projects/tree/master/xPDF50",
     author="Thaare87",

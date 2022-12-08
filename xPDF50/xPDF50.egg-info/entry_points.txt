@@ -1,2 +1,2 @@
 [console_scripts]
-xPDF50 = xPDF50.xPDF50:main
+xPDF50 = xPDF50.__main__:main

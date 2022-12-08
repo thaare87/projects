@@ -3,7 +3,6 @@ from xhtml2pdf import pisa
 import argparse
 import re
 import requests
-import sys
 
 
 """
@@ -11,6 +10,13 @@ import sys
     xPDF50 returns a clean PDF file of the main content of that page.
 
 """
+
+class Error:
+    parser = argparse.ArgumentParser()
+
+    @classmethod
+    def exit(cls, message):
+        cls.parser.exit(message)
 
 
 def main():
@@ -40,11 +46,11 @@ def get_input():
 
     args = parser.parse_args()
 
-    if is_valid(args.url):
-        return args.url.lower()
+    if url := is_valid(args.url.lower()):
+        return url
 
     else:
-        parser.exit("hmm... looks like an invalid url    Try: project.py -h")
+        Error.exit("hmm... looks like an invalid url    Try: project.py -h")
 
 
 def is_valid(url):
@@ -101,7 +107,7 @@ def unpack(url):
     elif "project" in url:
         return handle_uncharted(url)
     else:
-        sys.exit("Sorry... doesn't recognize this cs50 page     Try: project.py -h")
+        Error.exit("Sorry... xPDF50 doesn't recognize this cs50 page     Try: project.py -h")
 
 
 
@@ -131,10 +137,10 @@ def extract_content(url):
 
         # Check if request response status is ok
         if html.status_code != requests.codes.ok:
-            sys.exit("hmm... something is not right")
+            Error.exit("hmm... something is not right")
 
     except requests.exceptions.Timeout:
-        sys.exit("cs50.harvard.edu took too long to respond")
+        Error.exit("cs50.harvard.edu took too long to respond")
 
     html = edit_tags(html.text, url)
 

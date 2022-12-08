@@ -7,8 +7,8 @@ with open("README.md", "r") as fh:
 
 setup(
     name="xPDF50",
-    version="1.0.2",
-    description="Get clean PDFs of CS50 course materials on cs50.harvard.edu URLs",
+    version="1.0.4",
+    description="Downloads clean PDFs of CS50 course materials from cs50.harvard.edu web pages",
     long_description = long_description, long_description_content_type=("text/markdown"),
     py_modules=["__main__"],
     packages=["xPDF50"],

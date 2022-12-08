@@ -11,6 +11,7 @@ import requests
 
 """
 
+
 class Error:
     parser = argparse.ArgumentParser()
 
@@ -29,14 +30,19 @@ def main():
         # Altered html to get desired PDF
         html = modify_html(url, course, year, material_name)
 
-        # Ship the pdf
-        get_pdf(html, f"x{material_name.capitalize()}.pdf")
+        # Ship the pdf and get the status
+        pdf_status = get_pdf(html, f"x{material_name}.pdf")
+
+        if pdf_status == "success":
+            print("File has been downloaded sucessfully! \nCheck the current directory.")
+        else:
+            print("Sorry! Some errors have occured when downloading.")
 
 
 def get_input():
     """Gets input from user"""
 
-    parser = argparse.ArgumentParser(prog='xPDF50')
+    parser = argparse.ArgumentParser(prog="xPDF50")
 
     parser.add_argument(
         "url",
@@ -107,8 +113,9 @@ def unpack(url):
     elif "project" in url:
         return handle_uncharted(url)
     else:
-        Error.exit("Sorry... xPDF50 doesn't recognize this cs50 page     Try: project.py -h")
-
+        Error.exit(
+            "Sorry... xPDF50 doesn't recognize this cs50 page     Try: project.py -h"
+        )
 
 
 def handle_uncharted(url):
@@ -122,7 +129,7 @@ def handle_uncharted(url):
 def modify_html(url, course, year, lesson):
     """Modify raw html to get desired PDF using xhtml2pdf module"""
 
-    template = "<html><head><style>@page {size: a4 portrait;@frame content_frame {/* Content Frame */left: 50pt; width: 512pt; top: 50pt; height: 722pt;} @frame footer_frame { /* Another static Frame */-pdf-frame-content: footer_content;left: 376pt; width: 512pt; top: 792pt; height: 20pt;}}body{font-size: 10pt;}img {zoom: 70%;}code {font-family: Verdana;}</style></head><body>"
+    template = "<html><head><style>@page {size: a4 portrait;@frame content_frame {/* Content Frame */left: 50pt; width: 512pt; top: 50pt; height: 722pt;} @frame footer_frame { /* Another static Frame */-pdf-frame-content: footer_content;left: 376pt; width: 512pt; top: 792pt; height: 20pt;}}body{font-size: 10pt;}img {zoom: 70%;}code {font-family: Georgia;}</style></head><body>"
     content = extract_content(url)
     footer = f'<div id="footer_content">CS50/{course}/{year}/{lesson} (Page: <pdf:pagenumber>)</div>'
 
@@ -146,7 +153,7 @@ def extract_content(url):
 
     # Extracting from html's h1 tag onwards until </body> tag
     if matches := re.search(
-        r'.+(<h1.+</body>).+',
+        r".+(<h1.+</body>).+",
         html,
         re.DOTALL,
     ):
@@ -156,7 +163,7 @@ def extract_content(url):
 
 
 def edit_tags(html, url):
-    '''Remove or replace html tags to suit pdf format'''
+    """Remove or replace html tags to suit pdf format"""
 
     # Replace img src with full url path
     html = re.sub(r'<img.src="(.+)".alt=".+">', rf'<img src="{url}/\1">', html)
@@ -166,11 +173,9 @@ def edit_tags(html, url):
 
     # Removing demo
     html = re.sub(r'<h2.id="demo">Demo</h2>', " ", html)
-    html = re.sub(r'<script async="".+</script>', " ", html
-    )
+    html = re.sub(r'<script async="".+</script>', " ", html)
 
     return html
-
 
 
 def get_pdf(source_html, output_filename):
@@ -188,7 +193,12 @@ def get_pdf(source_html, output_filename):
     result_file.close()
 
     # return False on success and True on errors
-    return pisa_status.err
+    status = pisa_status.err
+
+    if status:
+        return "failed"
+    else:
+        return "success"
 
 
 if __name__ == "__main__":

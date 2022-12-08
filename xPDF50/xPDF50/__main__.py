@@ -11,6 +11,7 @@ import requests
 
 """
 
+
 class Error:
     parser = argparse.ArgumentParser()
 
@@ -36,7 +37,7 @@ def main():
 def get_input():
     """Gets input from user"""
 
-    parser = argparse.ArgumentParser(prog='xPDF50')
+    parser = argparse.ArgumentParser(prog="xPDF50")
 
     parser.add_argument(
         "url",
@@ -107,8 +108,9 @@ def unpack(url):
     elif "project" in url:
         return handle_uncharted(url)
     else:
-        Error.exit("Sorry... xPDF50 doesn't recognize this cs50 page     Try: project.py -h")
-
+        Error.exit(
+            "Sorry... xPDF50 doesn't recognize this cs50 page     Try: project.py -h"
+        )
 
 
 def handle_uncharted(url):
@@ -146,7 +148,7 @@ def extract_content(url):
 
     # Extracting from html's h1 tag onwards until </body> tag
     if matches := re.search(
-        r'.+(<h1.+</body>).+',
+        r".+(<h1.+</body>).+",
         html,
         re.DOTALL,
     ):
@@ -156,7 +158,7 @@ def extract_content(url):
 
 
 def edit_tags(html, url):
-    '''Remove or replace html tags to suit pdf format'''
+    """Remove or replace html tags to suit pdf format"""
 
     # Replace img src with full url path
     html = re.sub(r'<img.src="(.+)".alt=".+">', rf'<img src="{url}/\1">', html)
@@ -166,11 +168,9 @@ def edit_tags(html, url):
 
     # Removing demo
     html = re.sub(r'<h2.id="demo">Demo</h2>', " ", html)
-    html = re.sub(r'<script async="".+</script>', " ", html
-    )
+    html = re.sub(r'<script async="".+</script>', " ", html)
 
     return html
-
 
 
 def get_pdf(source_html, output_filename):

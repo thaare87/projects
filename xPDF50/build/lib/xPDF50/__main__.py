@@ -31,7 +31,7 @@ def main():
         html = modify_html(url, course, year, material_name)
 
         # Ship the pdf and get the status
-        pdf_status = get_pdf(html, f"x{material_name}.pdf")
+        pdf_status = get_pdf(html, f"{{material_name}.pdf")
 
         if pdf_status == "success":
             print("File has been downloaded sucessfully! \nCheck the current directory.")
@@ -110,7 +110,7 @@ def unpack(url):
             return handle_uncharted(url)
         else:
             return course, year, f"{problem_or_project_name}"
-    elif "project" in url:
+    elif "project" in url or "lab" in url:
         return handle_uncharted(url)
     else:
         Error.exit(

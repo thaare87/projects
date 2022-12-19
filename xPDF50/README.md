@@ -1,6 +1,6 @@
 ### xPDF50
 
-Given a URL of Harvard's CS50 web page containing a project, a problem or lecture notes xPDF50 outputs a clean PDF file of that project, problem, or notes.
+Given a URL of Harvard's CS50 web page containing a project, a problem, a lab or lecture notes xPDF50 outputs a clean PDF file of that project, problem, lab or notes.
 
 > Installation
 
@@ -16,9 +16,9 @@ Please note that following modules are 'required' for xPDF50 to work.
 
      $ xPDF50 url
 
-Make sure to provide a URL of a cs50.harvard.edu page containing a project, a problem or lecture notes.
+Make sure to provide a URL of a cs50.harvard.edu page containing a project, a problem, a lab or lecture notes.
 
-*** Important: Recommends only to be used within CS50's labs and codespaces. You may have to install 'C++ build tools', otherwise.
+*** Important: Download the pdf file to the PC to view it 
 
      
 
